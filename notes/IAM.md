@@ -47,4 +47,18 @@ In case the access is to be given, you need to do the following :
     - Use another user as a template to add perms to the current user
     - Add the user to a certain group so that it would have pre-defined perms
 
+> NOTE : We cannot attach as many policies as we wish to, there is a hard-limit
+of 10 permissions that we can attach to a single user. 
+
+A better way to do this is to use user-groups. A user can be added to multiple
+user groups. And these groups contain certain policies attached to them which 
+get applied to all the users within the group. Interestingly, there are certain 
+policies which are `AWS Managed` and then there are policies written from 
+scratch by you. There are guidelines and documentation as to how you can write 
+security policies.
+
+`In the top right corner you would notice the profile name - IAMUser @ RootUser`
+Also, based on the permissions provided (policies attached) the user would 
+be able to open the dashboard of only those relavant services.
+
 
