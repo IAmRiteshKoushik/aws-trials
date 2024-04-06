@@ -6,17 +6,19 @@ import {
     ListRecommendationsCommand,
     DescribeCodeReviewCommand,
 } from "@aws-sdk/client-codeguru-reviewer";
+import { warn } from "console";
 import dotenv from "dotenv";
 
 dotenv.config();
 
 const config = {
-    region: process.env.REGION,
+    region: process.env.REGION ?? "region",
     credentials: {
-        accessKeyId: process.env.ACCESS_KEY_ID,
-        secretAccessKey: process.env.SECRET_ACCESS_KEY,
+        accessKeyId: process.env.ACCESS_KEY_ID ?? "access-key",
+        secretAccessKey: process.env.SECRET_ACCESS_KEY ?? "secret-key",
     }
 };
+
 const client = new CodeGuruReviewerClient(config);
 
 const inputForAssociate = {
@@ -27,16 +29,10 @@ const inputForAssociate = {
         }
     }
 }
-const associateCmd = new AssociateRepositoryCommand(inputForAssociate);
-// const response = await client.send(associateCmd);
-// console.log(respone);
 
 const inputForDescAssociate = {
     AssociationArn: process.env.ASSOCIATION_ARN,
 }
-const describeAssociateCmd = new DescribeRepositoryAssociationCommand(inputForDescAssociate);
-// const response = await client.send(describeAssociateCmd);
-// console.log(respone);
 
 const inputForReview = {
     Name: "FirstReview",
@@ -56,22 +52,38 @@ const inputForReview = {
         }
     }
 };
-const createCodeRevCmd = new CreateCodeReviewCommand(inputForReview);
-// const response = await client.send(createCodeRevCmd);
-// console.log(response);
 
 const inputForDescCodeReview = {
     CodeReviewArn: process.env.CODEREVIEW_ARN,
 }
 
-// const descCodeRevCmd = new DescribeCodeReviewCommand(inputForDescCodeReview);
-// const response = await client.send(descCodeRevCmd);
-// console.log(response);
 
 const inputForListRecommendations = {
     MaxResults: Number("100"),
     CodeReviewArn: process.env.CODEREVIEW_ARN,
 }
-// const command = new ListRecommendationsCommand(inputForListRecommendations);
-// const response = await client.send(command);
-// console.log(response);
+
+async function main(){
+
+    // const associateCmd = new AssociateRepositoryCommand(inputForAssociate);
+    // const responseAss = await client.send(associateCmd);
+    // console.log(responseAss);
+
+    // const describeAssociateCmd = new DescribeRepositoryAssociationCommand(inputForDescAssociate);
+    // const responseDescAss = await client.send(describeAssociateCmd);
+    // console.log(responseDescAss);
+
+    const createCodeRevCmd = new CreateCodeReviewCommand(inputForReview);
+    const responseCreate = await client.send(createCodeRevCmd);
+    console.log(responseCreate);
+
+    // const descCodeRevCmd = new DescribeCodeReviewCommand(inputForDescCodeReview);
+    // const responseDescRev = await client.send(descCodeRevCmd);
+    // console.log(responseDescRev);
+ 
+    // const listRecomed = new ListRecommendationsCommand(inputForListRecommendations);
+    // const responseListRecomed = await client.send(listRecomed);
+    // console.log(responseListRecomed);
+}
+
+main();
